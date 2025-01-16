@@ -1,38 +1,42 @@
-import { Application, Assets, Sprite } from "pixi.js";
+import { Application, Graphics } from "pixi.js";
 
 (async () => {
-  // Create a new application
-  const app = new Application();
+    const app = new Application();
 
-  // DevTools
-  (globalThis as any).__PIXI_APP__ = app;
+    // for DevTools
+    (globalThis as any).__PIXI_APP__ = app;
 
-  // Initialize the application
-  await app.init({ background: "#1099bb", resizeTo: window });
+    await app.init({ background: "#1c1917", resizeTo: window });
 
-  // Append the application canvas to the document body
-  document.getElementById("pixi-container")!.appendChild(app.canvas);
+    document.getElementById("pixi-container")!.appendChild(app.canvas);
 
-  // Load the bunny texture
-  const texture = await Assets.load("/assets/bunny.png");
+    const UNIT_LENGTH = app.screen.width / 10;
+    const UNIT_TIME_INTERVAL_MS = 200;
 
-  // Create a bunny Sprite
-  const bunny = new Sprite(texture);
+    let rect = new Graphics()
+        .rect(0, 0, UNIT_LENGTH, UNIT_LENGTH)
+        .fill("#f5f5f4");
 
-  // Center the sprite's anchor point
-  bunny.anchor.set(0.5);
+    rect.position.set(app.screen.width / 2, app.screen.height / 2)
+    rect.updateTransform({ pivotX: UNIT_LENGTH / 2, pivotY: UNIT_LENGTH / 2 });
 
-  // Move the sprite to the center of the screen
-  bunny.position.set(app.screen.width / 2, app.screen.height / 2);
+    app.stage.addChild(rect);
 
-  // Add the bunny to the stage
-  app.stage.addChild(bunny);
+    let elapsedTime = 0;
 
-  // Listen for animate update
-  app.ticker.add((time) => {
-    // Just for fun, let's rotate mr rabbit a little.
-    // * Delta is 1 if running at 100% performance *
-    // * Creates frame-independent transformation *
-    bunny.rotation += 0.1 * time.deltaTime;
-  });
+    app.ticker.add((ticker) => {
+
+        elapsedTime += ticker.deltaMS;
+        if (elapsedTime > UNIT_TIME_INTERVAL_MS) {
+            elapsedTime = 0;
+
+            let { x, y } = rect.position;
+            y += UNIT_LENGTH; // Moves downwards!
+
+            if (y > app.screen.height - UNIT_LENGTH)
+                y = UNIT_LENGTH;
+
+            rect.position.set(x, y);
+        }
+    });
 })();
