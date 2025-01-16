@@ -4,6 +4,9 @@ import { Application, Assets, Sprite } from "pixi.js";
   // Create a new application
   const app = new Application();
 
+  // DevTools
+  (globalThis as any).__PIXI_APP__ = app;
+
   // Initialize the application
   await app.init({ background: "#1099bb", resizeTo: window });
 
