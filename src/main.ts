@@ -2,10 +2,13 @@ import { Application } from "pixi.js";
 import { createGlobalContext } from "./GlobalContext";
 import { createSnake } from "./Snake";
 import { createBoundary } from "./Boundary";
+import { createFood } from "./Food";
 
 declare global {
     var __PIXI_APP__: Application
 }
+
+// TODO : should refactor to separate data and rendering, to prepare for multiplayer
 
 (async () => {
     const app = new Application();
@@ -20,14 +23,16 @@ declare global {
     let boundary = createBoundary(ctx);
     app.stage.addChild(boundary);
 
+    let food = createFood(ctx);
+    app.stage.addChild(food.container);
+
     let snake = createSnake(ctx);
     app.stage.addChild(snake.container);
 
     ctx.playerInput.startPolling();
 
-    // TODO : should refactor to separate data and rendering, to prepare for multiplayer
-
     app.ticker.add((ticker) => {
         snake.update(ctx, ticker);
+        food.update(ctx);
     });
 })();

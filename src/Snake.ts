@@ -25,7 +25,9 @@ class Snake {
             .rect(0, 0, UNIT_LENGTH, UNIT_LENGTH)
             .fill("#f5f5f4");
 
+        // TODO : random position
         snakeHead.position.set(app.screen.width / 2, UPPER_BOUND_Y + UNIT_LENGTH / 2)
+
         snakeHead.updateTransform({ pivotX: snakeHead.width / 2, pivotY: snakeHead.height / 2 });
         snakeHead.label = "Snake Head";
 
