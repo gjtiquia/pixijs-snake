@@ -1,4 +1,5 @@
 import { Application, Point } from "pixi.js";
+import { createPlayerInput, PlayerInput } from "./PlayerInput";
 
 export function createGlobalContext(app: Application) {
     return new GlobalContext(app);
@@ -6,6 +7,7 @@ export function createGlobalContext(app: Application) {
 
 export class GlobalContext {
     app: Application;
+    playerInput: PlayerInput;
 
     UNIT_LENGTH: number;
     WORLD_SIZE: Point;
@@ -17,6 +19,7 @@ export class GlobalContext {
 
     constructor(app: Application) {
         this.app = app;
+        this.playerInput = createPlayerInput();
 
         this.UNIT_LENGTH = 20;
         this.WORLD_SIZE = new Point(15, 15);

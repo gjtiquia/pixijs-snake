@@ -23,8 +23,9 @@ declare global {
     let snake = createSnake(ctx);
     app.stage.addChild(snake.container);
 
+    ctx.playerInput.startPolling();
+
     app.ticker.add((ticker) => {
         snake.update(ctx, ticker);
     });
 })();
-
