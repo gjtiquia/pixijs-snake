@@ -1,49 +1,58 @@
 import { Application, Graphics, Point } from "pixi.js";
 
+declare global {
+    var __PIXI_APP__: Application
+}
+
 (async () => {
     const app = new Application();
 
     // for DevTools
-    (globalThis as any).__PIXI_APP__ = app;
+    globalThis.__PIXI_APP__ = app;
 
     await app.init({ background: "#1c1917", resizeTo: window });
 
     document.getElementById("pixi-container")!.appendChild(app.canvas);
 
-    const UNIT_LENGTH = 30;
-    const WORLD_SIZE = new Point(10, 10);
+    const UNIT_LENGTH = 20;
+    const WORLD_SIZE = new Point(15, 15);
     const UNIT_TIME_INTERVAL_MS = 100;
 
-    const BOUNDARY_WIDTH = 10;
+    const BOUNDARY_RECT_THICKNESS = 10;
+
+    const UPPER_BOUND_Y = app.screen.height / 2 - WORLD_SIZE.y * UNIT_LENGTH / 2;
+    const LOWER_BOUND_Y = app.screen.height / 2 + WORLD_SIZE.y * UNIT_LENGTH / 2;
+    const LEFT_BOUND_X = app.screen.width / 2 - WORLD_SIZE.x * UNIT_LENGTH / 2;
+    const RIGHT_BOUND_X = app.screen.width / 2 + WORLD_SIZE.x * UNIT_LENGTH / 2;
 
     let upperBoundaryRect = new Graphics()
-        .rect(0, 0, WORLD_SIZE.x * UNIT_LENGTH + 2 * BOUNDARY_WIDTH, BOUNDARY_WIDTH)
+        .rect(0, 0, WORLD_SIZE.x * UNIT_LENGTH + 2 * BOUNDARY_RECT_THICKNESS, BOUNDARY_RECT_THICKNESS)
         .fill("#ff0000")
     let lowerBoundaryRect = new Graphics()
-        .rect(0, 0, WORLD_SIZE.x * UNIT_LENGTH + 2 * BOUNDARY_WIDTH, BOUNDARY_WIDTH)
+        .rect(0, 0, WORLD_SIZE.x * UNIT_LENGTH + 2 * BOUNDARY_RECT_THICKNESS, BOUNDARY_RECT_THICKNESS)
         .fill("#ff0000")
     let leftBoundaryRect = new Graphics()
-        .rect(0, 0, BOUNDARY_WIDTH, WORLD_SIZE.y * UNIT_LENGTH + 2 * BOUNDARY_WIDTH)
+        .rect(0, 0, BOUNDARY_RECT_THICKNESS, WORLD_SIZE.y * UNIT_LENGTH + 2 * BOUNDARY_RECT_THICKNESS)
         .fill("#ff0000")
     let rightBoundaryRect = new Graphics()
-        .rect(0, 0, BOUNDARY_WIDTH, WORLD_SIZE.y * UNIT_LENGTH + 2 * BOUNDARY_WIDTH)
+        .rect(0, 0, BOUNDARY_RECT_THICKNESS, WORLD_SIZE.y * UNIT_LENGTH + 2 * BOUNDARY_RECT_THICKNESS)
         .fill("#ff0000")
 
     upperBoundaryRect.position.set(
         app.screen.width / 2,
-        app.screen.height / 2 - WORLD_SIZE.y * UNIT_LENGTH / 2 - BOUNDARY_WIDTH / 2,
+        UPPER_BOUND_Y - BOUNDARY_RECT_THICKNESS / 2,
     )
     lowerBoundaryRect.position.set(
         app.screen.width / 2,
-        app.screen.height / 2 + WORLD_SIZE.y * UNIT_LENGTH / 2 + BOUNDARY_WIDTH / 2,
+        LOWER_BOUND_Y + BOUNDARY_RECT_THICKNESS / 2,
     )
     leftBoundaryRect.position.set(
-        app.screen.width / 2 - WORLD_SIZE.x * UNIT_LENGTH / 2 - BOUNDARY_WIDTH / 2,
-        app.screen.height / 2
+        LEFT_BOUND_X - BOUNDARY_RECT_THICKNESS / 2,
+        app.screen.height / 2,
     )
     rightBoundaryRect.position.set(
-        app.screen.width / 2 + WORLD_SIZE.x * UNIT_LENGTH / 2 + BOUNDARY_WIDTH / 2,
-        app.screen.height / 2
+        RIGHT_BOUND_X + BOUNDARY_RECT_THICKNESS / 2,
+        app.screen.height / 2,
     )
 
     upperBoundaryRect.updateTransform({
@@ -63,6 +72,11 @@ import { Application, Graphics, Point } from "pixi.js";
         pivotY: rightBoundaryRect.height / 2,
     })
 
+    upperBoundaryRect.label = "Upper Boundary Rect";
+    lowerBoundaryRect.label = "Lower Boundary Rect";
+    leftBoundaryRect.label = "Left Boundary Rect";
+    rightBoundaryRect.label = "Right Boundary Rect";
+
     app.stage.addChild(upperBoundaryRect);
     app.stage.addChild(lowerBoundaryRect);
     app.stage.addChild(leftBoundaryRect);
@@ -72,7 +86,7 @@ import { Application, Graphics, Point } from "pixi.js";
         .rect(0, 0, UNIT_LENGTH, UNIT_LENGTH)
         .fill("#f5f5f4");
 
-    rect.position.set(app.screen.width / 2, app.screen.height / 2)
+    rect.position.set(app.screen.width / 2, UPPER_BOUND_Y + UNIT_LENGTH / 2)
     rect.updateTransform({ pivotX: UNIT_LENGTH / 2, pivotY: UNIT_LENGTH / 2 });
 
     app.stage.addChild(rect);
@@ -88,8 +102,8 @@ import { Application, Graphics, Point } from "pixi.js";
             let { x, y } = rect.position;
             y += UNIT_LENGTH; // Moves downwards!
 
-            if (y > app.screen.height - UNIT_LENGTH)
-                y = UNIT_LENGTH;
+            if (y > LOWER_BOUND_Y - UNIT_LENGTH / 2)
+                y = UPPER_BOUND_Y + UNIT_LENGTH / 2;
 
             rect.position.set(x, y);
         }
