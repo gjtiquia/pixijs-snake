@@ -9,9 +9,10 @@ export class PlayerInput {
     right: boolean = false;
 
     public startPolling() {
-        window.addEventListener("keydown", (e) => {
-            console.log("keydown", e.code);
 
+        // TODO : poll button inputs on mobile
+
+        window.addEventListener("keydown", (e) => {
             switch (e.code) {
                 case "KeyW": this.up = true; break;
                 case "KeyA": this.left = true; break;
@@ -21,8 +22,6 @@ export class PlayerInput {
         });
 
         window.addEventListener("keyup", (e) => {
-            console.log("keyup", e.code);
-
             switch (e.code) {
                 case "KeyW": this.up = false; break;
                 case "KeyA": this.left = false; break;

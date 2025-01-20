@@ -4,7 +4,7 @@ import { GlobalContext } from "./GlobalContext";
 export function createBoundary(ctx: GlobalContext) {
 
     const BOUNDARY_RECT_THICKNESS = 10;
-    const BOUNDARY_RECT_COLOR = "#ff0000";
+    const BOUNDARY_RECT_COLOR = "#333333";
 
     const app = ctx.app;
     const WORLD_SIZE = ctx.WORLD_SIZE;

@@ -25,6 +25,8 @@ declare global {
 
     ctx.playerInput.startPolling();
 
+    // TODO : should refactor to separate data and rendering, to prepare for multiplayer
+
     app.ticker.add((ticker) => {
         snake.update(ctx, ticker);
     });
