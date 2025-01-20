@@ -1,4 +1,4 @@
-import { Application } from "pixi.js";
+import { Application, Container } from "pixi.js";
 import { createGlobalContext } from "./GlobalContext";
 import { createSnake } from "./Snake";
 import { createBoundary } from "./Boundary";
@@ -36,3 +36,22 @@ declare global {
         food.update(ctx);
     });
 })();
+
+function createControlUI() {
+    // TODO : wip
+}
+
+class ControlUI {
+    container: Container;
+
+    constructor() {
+
+        // let 
+        // TODO : create 4 rects, save as members, player input listens to these 4 rect events
+
+        let container = new Container();
+
+
+        this.container = container;
+    }
+}
