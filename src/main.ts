@@ -1,8 +1,9 @@
-import { Application, Container } from "pixi.js";
-import { createGlobalContext } from "./GlobalContext";
+import { Application, Container, DEG_TO_RAD, Graphics, Point, Transform } from "pixi.js";
+import { createGlobalContext, GlobalContext } from "./GlobalContext";
 import { createSnake } from "./Snake";
 import { createBoundary } from "./Boundary";
 import { createFood } from "./Food";
+import { createControlUI } from "./ControlUI";
 
 declare global {
     var __PIXI_APP__: Application
@@ -23,7 +24,6 @@ declare global {
     let worldContainer = new Container();
     worldContainer.label = "World Container";
     worldContainer.position.set(ctx.WORLD_POSITION.x, ctx.WORLD_POSITION.y);
-    app.stage.addChild(worldContainer);
 
     let boundary = createBoundary(ctx);
     worldContainer.addChild(boundary);
@@ -34,7 +34,12 @@ declare global {
     let snake = createSnake(ctx);
     worldContainer.addChild(snake.container);
 
-    ctx.playerInput.startPolling();
+    app.stage.addChild(worldContainer);
+
+    let controlUI = createControlUI(ctx);
+    app.stage.addChild(controlUI.container);
+
+    ctx.playerInput.startPolling(controlUI);
 
     app.ticker.add((ticker) => {
         snake.update(ctx, ticker);
@@ -42,21 +47,3 @@ declare global {
     });
 })();
 
-function createControlUI() {
-    return new ControlUI();
-}
-
-class ControlUI {
-    container: Container;
-
-    constructor() {
-
-        // let 
-        // TODO : create 4 rects, save as members, player input listens to these 4 rect events
-
-        let container = new Container();
-
-
-        this.container = container;
-    }
-}
