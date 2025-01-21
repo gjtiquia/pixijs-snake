@@ -6,13 +6,8 @@ export function createBoundary(ctx: GlobalContext) {
     const BOUNDARY_RECT_THICKNESS = 10;
     const BOUNDARY_RECT_COLOR = "#333333";
 
-    const app = ctx.app;
     const WORLD_SIZE = ctx.WORLD_SIZE;
     const UNIT_LENGTH = ctx.UNIT_LENGTH;
-    const UPPER_BOUND_Y = ctx.UPPER_BOUND_Y;
-    const LOWER_BOUND_Y = ctx.LOWER_BOUND_Y;
-    const LEFT_BOUND_X = ctx.LEFT_BOUND_X;
-    const RIGHT_BOUND_X = ctx.RIGHT_BOUND_X;
 
     let upperBoundaryRect = new Graphics()
         .rect(0, 0, WORLD_SIZE.x * UNIT_LENGTH + 2 * BOUNDARY_RECT_THICKNESS, BOUNDARY_RECT_THICKNESS)
@@ -28,20 +23,20 @@ export function createBoundary(ctx: GlobalContext) {
         .fill(BOUNDARY_RECT_COLOR)
 
     upperBoundaryRect.position.set(
-        app.screen.width / 2,
-        UPPER_BOUND_Y - BOUNDARY_RECT_THICKNESS / 2,
+        0,
+        - (WORLD_SIZE.y * UNIT_LENGTH / 2 + BOUNDARY_RECT_THICKNESS / 2),
     )
     lowerBoundaryRect.position.set(
-        app.screen.width / 2,
-        LOWER_BOUND_Y + BOUNDARY_RECT_THICKNESS / 2,
+        0,
+        + (WORLD_SIZE.y * UNIT_LENGTH / 2 + BOUNDARY_RECT_THICKNESS / 2),
     )
     leftBoundaryRect.position.set(
-        LEFT_BOUND_X - BOUNDARY_RECT_THICKNESS / 2,
-        app.screen.height / 2,
+        - (WORLD_SIZE.x * UNIT_LENGTH / 2 + BOUNDARY_RECT_THICKNESS / 2),
+        0,
     )
     rightBoundaryRect.position.set(
-        RIGHT_BOUND_X + BOUNDARY_RECT_THICKNESS / 2,
-        app.screen.height / 2,
+        + (WORLD_SIZE.x * UNIT_LENGTH / 2 + BOUNDARY_RECT_THICKNESS / 2),
+        0,
     )
 
     upperBoundaryRect.updateTransform({

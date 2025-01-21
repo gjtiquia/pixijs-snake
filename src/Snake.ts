@@ -1,5 +1,6 @@
 import { Container, Graphics, Point, Ticker } from "pixi.js";
 import { GlobalContext } from "./GlobalContext";
+import { getRandomWorldPosition } from "./utils";
 
 export function createSnake(ctx: GlobalContext) {
     return new Snake(ctx);
@@ -15,18 +16,15 @@ class Snake {
         this.elapsedTime = 0;
         this.velocity = new Point(0, 1); // Downwards by default
     }
-
     private createSnakeContainer(ctx: GlobalContext) {
-        const app = ctx.app;
         const UNIT_LENGTH = ctx.UNIT_LENGTH;
-        const UPPER_BOUND_Y = ctx.UPPER_BOUND_Y;
 
         let snakeHead = new Graphics()
             .rect(0, 0, UNIT_LENGTH, UNIT_LENGTH)
             .fill("#f5f5f4");
 
-        // TODO : random position
-        snakeHead.position.set(app.screen.width / 2, UPPER_BOUND_Y + UNIT_LENGTH / 2)
+        let randomPosition = getRandomWorldPosition(ctx);
+        snakeHead.position.set(randomPosition.x, randomPosition.y);
 
         snakeHead.updateTransform({ pivotX: snakeHead.width / 2, pivotY: snakeHead.height / 2 });
         snakeHead.label = "Snake Head";

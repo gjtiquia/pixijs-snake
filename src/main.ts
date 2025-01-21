@@ -20,14 +20,19 @@ declare global {
 
     const ctx = createGlobalContext(app);
 
+    let worldContainer = new Container();
+    worldContainer.label = "World Container";
+    worldContainer.position.set(ctx.WORLD_POSITION.x, ctx.WORLD_POSITION.y);
+    app.stage.addChild(worldContainer);
+
     let boundary = createBoundary(ctx);
-    app.stage.addChild(boundary);
+    worldContainer.addChild(boundary);
 
     let food = createFood(ctx);
-    app.stage.addChild(food.container);
+    worldContainer.addChild(food.container);
 
     let snake = createSnake(ctx);
-    app.stage.addChild(snake.container);
+    worldContainer.addChild(snake.container);
 
     ctx.playerInput.startPolling();
 
@@ -38,7 +43,7 @@ declare global {
 })();
 
 function createControlUI() {
-    // TODO : wip
+    return new ControlUI();
 }
 
 class ControlUI {
