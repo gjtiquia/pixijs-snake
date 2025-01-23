@@ -39,15 +39,16 @@ class Snake {
 
     public update(ctx: GlobalContext, ticker: Ticker) {
 
-        // TODO : dun allow diagonal movement
+        // TODO : should implement as input buffer, cuz can still immediately turn left from right if was able to sneak an "up" between "frames"
         const playerInput = ctx.playerInput;
         let playerX = 0;
         let playerY = 0;
-        if (playerInput.up) playerY -= 1
-        if (playerInput.down) playerY += 1
-        if (playerInput.left) playerX -= 1;
-        if (playerInput.right) playerX += 1;
-        if (playerX !== 0 || playerY !== 0) this.velocity.set(playerX, playerY);
+        if (playerInput.up && this.velocity.y !== 1) playerY -= 1
+        if (playerInput.down && this.velocity.y !== -1) playerY += 1
+        if (playerInput.left && this.velocity.x !== 1) playerX -= 1;
+        if (playerInput.right && this.velocity.x !== -1) playerX += 1;
+        if (Math.abs(playerX) === 1 && Math.abs(playerY) === 1) { /* keep previous velocity */ } // temporary solution to prevent diagonal movement
+        else if (playerX !== 0 || playerY !== 0) this.velocity.set(playerX, playerY);
 
         const UNIT_TIME_INTERVAL_MS = 120;
         this.elapsedTime += ticker.deltaMS;
