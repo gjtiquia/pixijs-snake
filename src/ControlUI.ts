@@ -71,10 +71,10 @@ export class ControlUI {
         rightButton.eventMode = "static";
 
         // TODO : refactor: should change the color based on PlayerInput, so the color will change even with keyboard presses
-        upButton.on("pointerdown", () => upButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_FILL_COLOR))
-        downButton.on("pointerdown", () => downButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_FILL_COLOR))
-        leftButton.on("pointerdown", () => leftButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_FILL_COLOR))
-        rightButton.on("pointerdown", () => rightButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_FILL_COLOR))
+        upButton.on("pointerdown", () => { upButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_FILL_COLOR); navigator.vibrate(20) })
+        downButton.on("pointerdown", () => { downButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_FILL_COLOR); navigator.vibrate(20) })
+        leftButton.on("pointerdown", () => { leftButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_FILL_COLOR); navigator.vibrate(20) })
+        rightButton.on("pointerdown", () => { rightButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_FILL_COLOR); navigator.vibrate(20) })
 
         upButton.on("pointerup", () => upButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_COLOR))
         downButton.on("pointerup", () => downButton.clear().rect(0, 0, BUTTON_LENGTH, BUTTON_LENGTH).fill(BUTTON_COLOR))
