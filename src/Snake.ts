@@ -49,7 +49,7 @@ class Snake {
         if (playerInput.right) playerX += 1;
         if (playerX !== 0 || playerY !== 0) this.velocity.set(playerX, playerY);
 
-        const UNIT_TIME_INTERVAL_MS = 75;
+        const UNIT_TIME_INTERVAL_MS = 120;
         this.elapsedTime += ticker.deltaMS;
 
         if (this.elapsedTime > UNIT_TIME_INTERVAL_MS) {
