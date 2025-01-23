@@ -1,5 +1,5 @@
-import { Application, Container, DEG_TO_RAD, Graphics, Point, Transform } from "pixi.js";
-import { createGlobalContext, GlobalContext } from "./GlobalContext";
+import { Application, Container } from "pixi.js";
+import { createGlobalContext } from "./GlobalContext";
 import { createSnake } from "./Snake";
 import { createBoundary } from "./Boundary";
 import { createFood } from "./Food";
