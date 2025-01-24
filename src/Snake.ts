@@ -20,7 +20,7 @@ class Snake {
         this.velocity = new Point(0, 1); // Downwards by default
     }
     private createSnakeContainer(ctx: GlobalContext) {
-        let snakeHead = this.createRect(ctx);
+        let snakeHead = this.createBigRect(ctx);
         snakeHead.label = "Snake Head";
 
         let randomPosition = getRandomWorldPosition(ctx);
@@ -99,7 +99,7 @@ class Snake {
 
             const wasEatenThisFrame = snakeHead.position.equals(food.position);
             if (wasEatenThisFrame) {
-                let newBody = this.createRect(ctx);
+                let newBody = this.createSmallRect(ctx);
                 newBody.position = previousTailPosition.clone();
 
                 this.bodyContainers.push(newBody);
@@ -108,13 +108,34 @@ class Snake {
         }
     }
 
-    private createRect(ctx: GlobalContext) {
+    private createBigRect(ctx: GlobalContext) {
         const UNIT_LENGTH = ctx.UNIT_LENGTH;
-        const PADDING = 0.9;
+        const PADDING = 0.1;
 
         let rect = new Graphics()
-            .rect(0, 0, UNIT_LENGTH * PADDING, UNIT_LENGTH * PADDING)
-            .fill("#f5f5f4");
+            .rect(0, 0, UNIT_LENGTH - UNIT_LENGTH * PADDING, UNIT_LENGTH - UNIT_LENGTH * PADDING)
+            .fill("#f5f5f4")
+
+        rect.updateTransform({ pivotX: rect.width / 2, pivotY: rect.height / 2 });
+
+        return rect;
+    }
+
+    private createSmallRect(ctx: GlobalContext) {
+        const UNIT_LENGTH = ctx.UNIT_LENGTH;
+
+        const bodyPadding = 0.3;
+        const bodyLength = UNIT_LENGTH - UNIT_LENGTH * bodyPadding;
+
+        const foodPadding = 0.6;
+        const foodLength = UNIT_LENGTH - UNIT_LENGTH * foodPadding;
+        const foodSpacing = (bodyLength - foodLength) / 2
+
+        let rect = new Graphics()
+            .rect(0, 0, bodyLength, bodyLength)
+            .fill("#f5f5f4")
+            .rect(foodSpacing, foodSpacing, UNIT_LENGTH - UNIT_LENGTH * foodPadding, UNIT_LENGTH - UNIT_LENGTH * foodPadding)
+            .fill("#ffff00")
 
         rect.updateTransform({ pivotX: rect.width / 2, pivotY: rect.height / 2 });
 
